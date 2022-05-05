@@ -1,0 +1,16 @@
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ConcentracaoDeHemacias.exe
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ConcentracaoDeHemacias.deps.json
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ConcentracaoDeHemacias.runtimeconfig.json
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ConcentracaoDeHemacias.dll
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ref\ConcentracaoDeHemacias.dll
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\bin\Debug\net6.0-windows\ConcentracaoDeHemacias.pdb
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.Codigos.UI.exibirImagem.resources
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.csproj.GenerateResource.cache
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.AssemblyInfoInputs.cache
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.AssemblyInfo.cs
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.csproj.CoreCompileInputs.cache
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.dll
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ref\ConcentracaoDeHemacias.dll
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.pdb
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.genruntimeconfig.cache
