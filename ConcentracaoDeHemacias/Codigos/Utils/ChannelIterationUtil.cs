@@ -36,6 +36,21 @@
             return (outputR, outputG, outputB);
         }
 
+        public static int[,] iterateOnChannels(int[,] A, int[,] B, Func<int, int, int> function)
+        {
+            int[,] output =  new int[A.GetLength(0), A.GetLength(1)];
+
+            for (int h = 0; h < output.GetLength(0); h++)
+            {
+                for (int w = 0; w < output.GetLength(1); w++)
+                {
+                    output[h, w] = function(A[h,w], B[h,w]);
+                }
+            }
+
+            return output;
+        }
+
         public static int[,] iterateOnChannel(int[,] channel, Func<int, int> function)
         {
             int[,] output = new int[channel.GetLength(0), channel.GetLength(1)];

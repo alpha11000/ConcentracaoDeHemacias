@@ -14,3 +14,4 @@ C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\
 C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ref\ConcentracaoDeHemacias.dll
 C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.pdb
 C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.genruntimeconfig.cache
+C:\Users\Cliente\source\repos\ConcentracaoDeHemacias\ConcentracaoDeHemacias\obj\Debug\net6.0-windows\ConcentracaoDeHemacias.csproj.AssemblyReference.cache

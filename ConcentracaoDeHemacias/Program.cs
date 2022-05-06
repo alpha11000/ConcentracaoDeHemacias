@@ -26,37 +26,79 @@ namespace ConcentracaoDeHemacias
 
             while(true){
 
-                ConsoleUtil.writeColoredLine("Escolha uma imagem de entrada:", (int)ConsoleColor.Green);
+                ConsoleUtil.writeColoredLine("Escolha uma imagem de entrada:", (int)ConsoleColor.Yellow);
 
                 if(_ofd.ShowDialog() == DialogResult.OK){
-                    try{
+                    try
+                    {
                         bmpO = new Bitmap(_ofd.FileName);
                         Bitmap bmp = new Bitmap(bmpO);
+
+                        ConsoleUtil.writeColoredLine("Imagem carregada com sucesso", (int)ConsoleColor.Green);
+
                         ConsoleUtil.showImageWindow(bmp, "Imagem de entrada");
                         var channels = ColorProcessing.getAllColorChannels(bmpO);
-                        int[,] gray = ColorProcessing.getGrayscaleChannel(channels);
-                        Bitmap grayB = ColorProcessing.getBitmapFromColorChannels(gray, gray, gray);
 
-                        ConsoleUtil.showImageWindow(grayB, "gray");
+                        int[,] grayScale = ColorProcessing.getGrayscaleChannel(channels, true);
+                        
+                        ConsoleUtil.showImageWindow(grayScale, "gray scale");
 
-                        int[,] limiar = ColorProcessing.getLimiarizedChannel(gray, 100, 255, 0);
-                        Bitmap limiarB = ColorProcessing.getBitmapFromColorChannels(limiar, limiar, limiar);
+                        var medianF = Filters.applyMedianFilter(grayScale, 9);
+                        ConsoleUtil.showImageWindow(medianF, "median filter");
 
-                        ConsoleUtil.showImageWindow(limiarB, "limiar");
+                        int[,] limiarized = ColorProcessing.getLimiarizedChannel(medianF, 200, 300, 255, 0);
+                        //ConsoleUtil.showImageWindow(limiarized, "median limiarized");
 
-                        int[,] equalized = HistogramProcessing.getEqualizedChannel(gray);
-                        Bitmap equalizedB = ColorProcessing.getBitmapFromColorChannels(equalized, equalized, equalized);
+                        int[,] limiarized2 = ColorProcessing.getLimiarizedChannel(grayScale, 0, 220, 0, 255);
+                        //ConsoleUtil.showImageWindow(limiarized2, "limiarized2");
 
-                        ConsoleUtil.showImageWindow(equalizedB, "Equalized");
+                        int[,] limiarizedRed = ColorProcessing.getLimiarizedChannel(channels.R, 145, 300, 0, 255);
+                        ConsoleUtil.showImageWindow(limiarizedRed, "limiarized red");
+                        limiarizedRed = MorphologicalImageProcessing.dilateChannel(limiarizedRed, MatrixUtil.getFilledMatrix(5,5,255));
+                        ConsoleUtil.showImageWindow(limiarizedRed, "limiarized red dilated 5x5");
+                        limiarizedRed = ColorProcessing.getInvertedChannel(limiarizedRed);
+                        ConsoleUtil.showImageWindow(limiarizedRed, "inverted red limiar");
 
-                        int[,] limiar2 = ColorProcessing.getLimiarizedChannel(equalized, int.Parse(Console.ReadLine()), 255, 0);
-                        Bitmap limiarB2 = ColorProcessing.getBitmapFromColorChannels(limiar2, limiar2, limiar2);
 
-                        ConsoleUtil.showImageWindow(limiarB2, "Equalized limiar");
+                        int[,] difference = MorphologicalImageProcessing.getChannelsDifference(limiarized2, limiarized);
+                        ConsoleUtil.showImageWindow(difference, "difference");
 
+
+                        var sum = MorphologicalImageProcessing.getMaxFromChannels(difference, limiarizedRed);
+                        ConsoleUtil.showImageWindow(sum, "sum");
+
+                        ///////////verificar o poder de estar realizando erosao e não dilatação
+                        //dilata para preencher as formas, depois erode pra remover os indesejados, dps redilata pra forma original
+                        var invertedSum = ColorProcessing.getInvertedChannel(sum);
+                        //var dilatedSum = MorphologicalImageProcessing.dilateChannel(invertedSum, new int[5, 5]);
+                        //dilatedSum = ColorProcessing.getInvertedChannel(dilatedSum);
+                        //ConsoleUtil.showImageWindow(dilatedSum, "dilated sum");
+
+                        Func<int[,], int, int[,]> medianFilter = Filters.applyMedianFilter;
+
+                        var openingSum = MorphologicalImageProcessing.getChannelOpening(sum, new int[5, 5]);
+                        ConsoleUtil.showImageWindow(openingSum, "first opening");
+
+                        var closing = MorphologicalImageProcessing.getChannelClosing(openingSum, new int[21, 21], medianFilter, 7);
+                        ConsoleUtil.showImageWindow(closing, "sum closing");
+
+                        openingSum = MorphologicalImageProcessing.getChannelOpening(closing, new int[7, 7]);
+                        ConsoleUtil.showImageWindow(openingSum, "sum opening");
+
+                        while (true)
+                        {
+                            int limiar1 = int.Parse(Console.ReadLine());
+                            int limiar2 = int.Parse(Console.ReadLine());
+
+                            limiarized = ColorProcessing.getLimiarizedChannel(grayScale, limiar1, limiar2);
+                            ConsoleUtil.showImageWindow(limiarized, $"limiar [{limiar1},{limiar2}]");
+                        }
+                        
                         break;
+                        
                     }
-                    catch{
+                    catch
+                    {
                         ConsoleUtil.writeColoredLine("Formato não suportado.", (int)ConsoleColor.Red);
                     }
                 }

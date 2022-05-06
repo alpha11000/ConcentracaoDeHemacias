@@ -47,6 +47,7 @@
             this.ExportarButton.TabIndex = 1;
             this.ExportarButton.Text = "Exportar";
             this.ExportarButton.UseVisualStyleBackColor = true;
+            this.ExportarButton.Visible = false;
             this.ExportarButton.Click += new System.EventHandler(this.ExportarButton_Click);
             // 
             // imagem

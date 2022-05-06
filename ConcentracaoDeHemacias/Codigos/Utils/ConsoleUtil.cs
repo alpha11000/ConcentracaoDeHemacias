@@ -1,14 +1,23 @@
 ﻿using ConcentracaoDeHemacias.Codigos.UI;
+using ConcentracaoDeHemacias.Codigos.Core;
 
 namespace ConcentracaoDeHemacias.Codigos.Utils
 {
     internal class ConsoleUtil
     {
-        public static void showImageWindow(Bitmap image, String imageName = "imagem")
+
+        public static void showImageWindow(int[,] channel, String imageName = "imagem")
         {
+            Bitmap input = ColorProcessing.getBitmapFromColorChannel(channel);
+            showImageWindow(input, imageName);
+        }
+
+        public static void showImageWindow(Bitmap image, String imageName = "imagem", SaveFileDialog saveDialog = null)
+        {
+            if(saveDialog == null) saveDialog = new SaveFileDialog();
             Task.Run(() =>
             {
-                Application.Run(new exibirImagem(image, imageName));
+                Application.Run(new exibirImagem(image, saveDialog, imageName));
             });
         }
 
