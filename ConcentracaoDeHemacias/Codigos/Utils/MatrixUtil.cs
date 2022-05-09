@@ -6,9 +6,14 @@
         {
             int[,] output = new int[originalMatrix.GetLength(0), originalMatrix.GetLength(1)];
 
-            if (valueToFill != 0)
+            //ChannelIterationUtil.iterateOnChannel(output, i => valueToFill);
+
+            for (int h = 0; h < output.GetLength(0); h++)
             {
-                ChannelIterationUtil.iterateOnChannel(output, i => valueToFill);
+                for (int w = 0; w < output.GetLength(1); w++)
+                {
+                    output[h, w] = valueToFill;
+                }
             }
 
             return output;

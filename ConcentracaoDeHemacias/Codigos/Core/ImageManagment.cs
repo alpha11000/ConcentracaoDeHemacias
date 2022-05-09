@@ -52,5 +52,17 @@ namespace ConcentracaoDeHemacias.Codigos.Core
 
             return aumented;
         }
+
+        public static bool compareChannels(int[,] A, int[,] B)//return true or false - equal or not
+        {
+            for (int h = 0; h < A.GetLength(0); h++){
+                for (int w = 0; w < A.GetLength(1); w++){
+                    if (A[h, w] != B[h, w])
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

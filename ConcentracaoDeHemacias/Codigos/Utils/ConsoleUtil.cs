@@ -12,6 +12,12 @@ namespace ConcentracaoDeHemacias.Codigos.Utils
             showImageWindow(input, imageName);
         }
 
+        public static void showImageWindow((int[,] R, int[,] G, int[,] B) channels, String imageName = "imagem")
+        {
+            Bitmap input = ColorProcessing.getBitmapFromColorChannels(channels);
+            showImageWindow(input, imageName);
+        }
+
         public static void showImageWindow(Bitmap image, String imageName = "imagem", SaveFileDialog saveDialog = null)
         {
             if(saveDialog == null) saveDialog = new SaveFileDialog();

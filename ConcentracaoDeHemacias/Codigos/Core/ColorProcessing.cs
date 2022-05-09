@@ -50,7 +50,7 @@ namespace ConcentracaoDeHemacias.Codigos.Core
         public static int[,] getLimiarizedChannel(int[,] channel, int limiar, int limiar2 = int.MaxValue, int min = 0, int max = 255)
         {
             int[,] output;
-            output = ChannelIterationUtil.iterateOnChannel(channel, i => (i > limiar && i <limiar2) ? max : min);
+            output = ChannelIterationUtil.iterateOnChannel(channel, i => (i >= limiar && i <=limiar2) ? max : min);
 
             return output;
         }
@@ -123,6 +123,11 @@ namespace ConcentracaoDeHemacias.Codigos.Core
         public static Bitmap getBitmapFromColorChannel(int[,] gray)
         {
             return getBitmapFromColorChannels(gray, gray, gray);
+        }
+
+        public static Bitmap getBitmapFromColorChannels((int[,] R, int[,] G, int[,] B) channels)
+        {
+            return getBitmapFromColorChannels(channels.R, channels.G, channels.B);
         }
 
         public static Bitmap getBitmapFromColorChannels(int[,] R, int[,] G, int[,] B)
