@@ -65,7 +65,6 @@ namespace ConcentracaoDeHemacias.Codigos.Core
         {
             int[,] output = erodeChannel(channel, structuringElement, out _);
 
-            ConsoleUtil.showImageWindow(output, "ERODE | OPENING");
             if(filter != null){
                 output = filter(output, filterSize);
             }
@@ -79,12 +78,12 @@ namespace ConcentracaoDeHemacias.Codigos.Core
         {
             int[,] output = dilateChannel(channel, structuringElement);
 
-            ConsoleUtil.showImageWindow(output, "eroded");
+           // ConsoleUtil.showImageWindow(output, "eroded");
 
             if (filter != null){
                 output = filter(output, filterSize);
             }
-            ConsoleUtil.showImageWindow(output, "eroded w/ median");
+            //ConsoleUtil.showImageWindow(output, "eroded w/ median");
 
 
             output = erodeChannel(output, structuringElement, out _);
@@ -100,6 +99,8 @@ namespace ConcentracaoDeHemacias.Codigos.Core
 
             int[,] aumented = ImageManagment.getAumentedChannel(originalChannelMatrix, structSize, 50);
             int[,] output = new int[channelSize[0], channelSize[1]];
+
+            int centerIntensity = structuringElement[structSize[0] / 2, structSize[1] / 2];
 
             someHit = false;
 
@@ -120,7 +121,7 @@ namespace ConcentracaoDeHemacias.Codigos.Core
                         }
                     }
                     if (!someHit && contained) someHit = true;
-                    output[h, w] = (contained) ? foreIntensity : backIntesity;
+                    output[h, w] = (contained) ? centerIntensity : 255 - centerIntensity;
                 }
             }
             return output;
@@ -134,6 +135,9 @@ namespace ConcentracaoDeHemacias.Codigos.Core
 
             int[,] aumented = ImageManagment.getAumentedChannel(originalChannelMatrix, structSize, 50);
             int[,] output = new int[channelSize[0], channelSize[1]];
+
+            int midStructIntensity = structuringElement[structSize[0] / 2, structSize[1] / 2];
+
 
             for (int w = 0; w < channelSize[0]; w++){
                 for (int h = 0; h < channelSize[1]; h++){
@@ -151,11 +155,36 @@ namespace ConcentracaoDeHemacias.Codigos.Core
                         }
                     }
 
-                    int midStructIntensity = structuringElement[structSize[0] / 2, structSize[1] / 2];
 
-                    output[w, h] = (present) ? fore : back;
+                    output[w, h] = (present) ? midStructIntensity : 255-midStructIntensity;
                 }
             }
+            return output;
+        }
+
+        public static int[,] geodesicDilation(int[,] channel, int[,] mask)
+        {
+            int[,] output = MatrixUtil.getFilledMatrixFrom(channel);
+            int[,] structuringElement = new int[3, 3];
+
+            int[,] dilation = channel;
+            int[,] tempDilation;
+
+
+            while (true)
+            {
+                tempDilation = dilateChannel(dilation, structuringElement);
+                tempDilation = getIntersection(tempDilation, mask);
+
+                if (ImageManagment.compareChannels(tempDilation, dilation))
+                    break;
+
+                dilation = tempDilation;
+
+            }
+
+            output = dilation;
+
             return output;
         }
 
