@@ -17,14 +17,10 @@ namespace ConcentracaoDeHemacias
             ApplicationConfiguration.Initialize();
             //Application.Run(new Form1());
 
-            
-
             OpenFileDialog _ofd = new OpenFileDialog();
             Bitmap bmpO = null;
             
-            
             Console.Title = "Pratica 3 PDI";
-
 
             while(true){
 
@@ -39,6 +35,9 @@ namespace ConcentracaoDeHemacias
                         ConsoleUtil.writeColoredLine("Imagem carregada com sucesso", (int)ConsoleColor.Green);
 
                         ConsoleUtil.showImageWindow(bmp, "Imagem de entrada");
+
+                        ConsoleUtil.setShow(ConsoleUtil.yesNoOptionWrite("Deseja exibir as imagens obtidas nos processos?"));
+
                         var channels = ColorProcessing.getAllColorChannels(bmpO);
                         var emptyChannel = MatrixUtil.getFilledMatrixFrom(channels.R);
 
@@ -59,8 +58,6 @@ namespace ConcentracaoDeHemacias
                         var removedleukocytes = MorphologicalImageProcessing.getMaxOnAllChannels(channels, openingH);
                         ConsoleUtil.showImageWindow(removedleukocytes, "Leucócitos removidos");
 
-                        ///////////////////////
-
                         var minGrayScale = ColorProcessing.getGrayscaleChannel(removedleukocytes, false);
                         ConsoleUtil.showImageWindow(minGrayScale, "minimo entre os canais");
 
@@ -78,16 +75,13 @@ namespace ConcentracaoDeHemacias
 
                         var limiarizedEliminatedColored = MorphologicalImageProcessing.getMaxOnAllChannels(channels, openingRemoveds);
 
-                        //Console.Read();
 
                         ConsoleUtil.showImageWindow(grayScaleRemoveds, "eliminateds");
                         ConsoleUtil.showImageWindow(limiarizedRemoveds, "limiar eliminateds");
                         ConsoleUtil.showImageWindow(openingRemoveds, "opening eliminateds");
                         ConsoleUtil.showImageWindow(limiarizedEliminatedColored, "limiar eliminateds all channels");
 
-
-                        /////////////////OK/////////////////// recomentar
-                        ///
+                        ConsoleUtil.writeColoredLine("Isolando canais azul e verde...", (int)ConsoleColor.Yellow);
                         var separatedBlueGreen = ColorProcessing.getBitmapFromColorChannels(emptyChannel, limiarizedEliminatedColored.G, limiarizedEliminatedColored.B);
                         
                         var reseparedChannels = ColorProcessing.getAllColorChannels(separatedBlueGreen);
@@ -96,29 +90,37 @@ namespace ConcentracaoDeHemacias
                         var grayScaleBlueGreen = ColorProcessing.getGrayscaleChannel(reseparedChannels, true);
                         ConsoleUtil.showImageWindow(grayScaleBlueGreen);
 
+                        ConsoleUtil.writeColoredLine("Limiarizando...", (int)ConsoleColor.Yellow);
                         var limiarBlueGreen = ColorProcessing.getLimiarizedChannel(grayScaleBlueGreen, 198);
                         ConsoleUtil.showImageWindow(limiarBlueGreen, "limiar Blue Green");
 
+                        ConsoleUtil.writeColoredLine("realizando abertura...", (int)ConsoleColor.Yellow);
                         var openingBlueGreen = MorphologicalImageProcessing.getChannelOpening(limiarBlueGreen, new int[3, 3]);
                         ConsoleUtil.showImageWindow(openingBlueGreen, "opening BlueGreen");
 
+                        ConsoleUtil.writeColoredLine("realizando erosão...", (int)ConsoleColor.Yellow);
                         var erodeElim = MorphologicalImageProcessing.erodeChannel(openingBlueGreen, new int[7, 7], out _);
                         ConsoleUtil.showImageWindow(erodeElim, "eroded Elim");
 
                         var openingOld = MorphologicalImageProcessing.getChannelOpening(limiarizedRemoveds, new int[4, 3], Filters.applyMedianFilter, 3);
                         ConsoleUtil.showImageWindow(openingOld, "opening old");
 
+                        ConsoleUtil.writeColoredLine("realizando dilatação geodésica...", (int)ConsoleColor.Yellow);
                         var geodesicalDilation = MorphologicalImageProcessing.geodesicDilation(erodeElim, openingOld);
                         ConsoleUtil.showImageWindow(geodesicalDilation, "geodesical Dilation");
 
                         var closingResult = MorphologicalImageProcessing.getChannelClosing(geodesicalDilation, new int[5, 5]);
                         ConsoleUtil.showImageWindow(closingResult, "closing final");
 
+                        ConsoleUtil.writeColoredLine("preenchimento por fechamento...", (int)ConsoleColor.Yellow);
                         var closingFill = MorphologicalImageProcessing.getChannelClosing(closingResult, new int[11, 11]); //RESOLVER
                         ConsoleUtil.showImageWindow(closingFill, "closing fill");
 
+                        ConsoleUtil.writeColoredLine("preenchimento por dilatações geodésicas...", (int)ConsoleColor.Yellow);
                         var filledResult = MorphologicalImageProcessing.fillHoles(closingResult);
                         ConsoleUtil.showImageWindow(filledResult, "fill result");
+
+                        ConsoleUtil.writeColoredLine("Obtendo interseção entre os preenchimentos...", (int)ConsoleColor.Yellow);
 
                         var intersectFill = MorphologicalImageProcessing.getIntersection(closingFill, filledResult);
                         ConsoleUtil.showImageWindow(intersectFill, "intersect fill");

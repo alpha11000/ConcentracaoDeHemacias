@@ -5,15 +5,23 @@ namespace ConcentracaoDeHemacias.Codigos.Utils
 {
     internal class ConsoleUtil
     {
+        static bool showImages = true;
+
+        public static void setShow(bool show)
+        {
+            showImages = show;
+        }
 
         public static void showImageWindow(int[,] channel, String imageName = "imagem")
         {
+            if (!showImages) return;
             Bitmap input = ColorProcessing.getBitmapFromColorChannel(channel);
             showImageWindow(input, imageName);
         }
 
         public static void showImageWindow((int[,] R, int[,] G, int[,] B) channels, String imageName = "imagem")
         {
+            if (!showImages) return;
             Bitmap input = ColorProcessing.getBitmapFromColorChannels(channels);
             showImageWindow(input, imageName);
         }
