@@ -116,7 +116,7 @@ namespace ConcentracaoDeHemacias
                         var closingFill = MorphologicalImageProcessing.getChannelClosing(closingResult, new int[11, 11]); //RESOLVER
                         ConsoleUtil.showImageWindow(closingFill, "closing fill");
 
-                        ConsoleUtil.writeColoredLine("preenchimento por dilatações geodésicas...", (int)ConsoleColor.Yellow);
+                        ConsoleUtil.writeColoredLine("preenchimento por dilatações geodésicas...(isso pode demorar vários minutos)", (int)ConsoleColor.Yellow);
                         var filledResult = MorphologicalImageProcessing.fillHoles(closingResult);
                         ConsoleUtil.showImageWindow(filledResult, "fill result");
 
